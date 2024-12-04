@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -6,10 +5,11 @@
 
 #define ROWS 3
 #define COLS 4
-#define GAME_DURATION 30 // Game duration in seconds
+#define GAME_DURATION 60 // Game duration in seconds
 
-void displayGrid(char grid[ROWS][COLS]) {
+void displayGrid(char grid[ROWS][COLS], int displayTime) {
     system("cls"); // Clear the console for updated grid
+    printf("Timer: %d seconds\n", displayTime);
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             printf("%c ", grid[i][j]);
@@ -19,7 +19,7 @@ void displayGrid(char grid[ROWS][COLS]) {
     printf("\n");
 }
 
-void clearGrid(char grid[ROWS][COLS]) {
+void clearTheGrid(char grid[ROWS][COLS]) {
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             grid[i][j] = '-';
@@ -28,18 +28,17 @@ void clearGrid(char grid[ROWS][COLS]) {
 }
 
 void generateMole(char grid[ROWS][COLS]) {
-    clearGrid(grid); // Clear the grid before placing a new mole
+    clearTheGrid(grid); // Clear the grid before placing a new mole
     int x = rand() % ROWS;
     int y = rand() % COLS;
     grid[x][y] = 'M';
 }
 
-
 void handleInput(char grid[ROWS][COLS], int* score) {
     int x, y;
     while (1) {
         printf("Enter coordinates to whack the mole (row [1-%d] and column [1-%d]): ", ROWS, COLS);
-        int result = scanf("%d %d", &x, &y);
+        int result = scanf_s("%d %d", &x, &y);
 
         if (result != 2) {
             printf("Invalid input. Please enter two numbers.\n");
@@ -70,11 +69,7 @@ void handleInput(char grid[ROWS][COLS], int* score) {
 int selectDifficulty() {
     int difficulty;
     printf("Select difficulty (1 = Easy, 2 = Normal, 3 = Hard): ");
-<<<<<<< .merge_file_Z4Dq7R
     while (scanf_s("%d", &difficulty) != 1 || difficulty < 1 || difficulty > 3) {
-=======
-    while (scanf("%d", &difficulty) != 1 || difficulty < 1 || difficulty > 3) {
->>>>>>> .merge_file_OTD2UR
         printf("Invalid selection. Please choose 1, 2, or 3: ");
         while (getchar() != '\n'); // Clear input buffer
     }
@@ -84,8 +79,6 @@ int selectDifficulty() {
 int main() {
     char grid[ROWS][COLS];
     int score = 0;
-    time_t startTime = time(NULL);
-
     srand(time(NULL));
 
     printf("Whac-A-Mole Game Start!\n");
@@ -97,28 +90,23 @@ int main() {
     case 2: sleepTime = 1000; break; // Normal: 1 second
     case 3: sleepTime = 500; break; // Hard: 0.5 seconds
     }
-<<<<<<< .merge_file_Z4Dq7R
-=======
-
-    while (time(NULL) - startTime < GAME_DURATION) {
-        clearGrid(grid);
-        generateMole(grid);
-
-        printf("Score: %d\n", score);
-        displayGrid(grid);
->>>>>>> .merge_file_OTD2UR
 
     generateMole(grid); // Initial mole generation
 
-    while (time(NULL) - startTime < GAME_DURATION) {
-        displayGrid(grid);
-<<<<<<< .merge_file_Z4Dq7R
-        handleInput(grid, &score);
-        generateMole(grid); // Immediately generate the next mole
-=======
+    time_t startTime = time(NULL); // Initialize startTime here
 
->>>>>>> .merge_file_OTD2UR
-        Sleep(sleepTime); // Windows: Sleep takes milliseconds
+    while (1) {
+        int elapsedTime = (int)(time(NULL) - startTime);
+        int remainingTime = GAME_DURATION - elapsedTime;
+
+        if (remainingTime <= 0) {
+            break;
+        }
+
+        displayGrid(grid, remainingTime);
+        handleInput(grid, &score);
+        generateMole(grid); // Generate a new mole after each input
+        Sleep(sleepTime); // Adjust game speed based on difficulty
     }
 
     printf("Game Over! Final Score: %d\n", score);
