@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <windows.h>// For sleep()
+#include <windows.h> // For Sleep()
 
 #define ROWS 3
 #define COLS 4
@@ -49,8 +49,9 @@ void handleInput(char grid[ROWS][COLS], int* score) {
         if (x >= 0 && x < ROWS && y >= 0 && y < COLS) {
             if (grid[x][y] == 'M') {
                 printf("You hit the mole!\n");
-                grid[x][y] = '-';
                 (*score)++;
+                generateMole(grid); // Generate next mole immediately
+                return;
             }
             else {
                 printf("Miss! No mole here.\n");
@@ -63,6 +64,16 @@ void handleInput(char grid[ROWS][COLS], int* score) {
     }
 }
 
+int selectDifficulty() {
+    int difficulty;
+    printf("Select difficulty (1 = Easy, 2 = Normal, 3 = Hard): ");
+    while (scanf_s("%d", &difficulty) != 1 || difficulty < 1 || difficulty > 3) {
+        printf("Invalid selection. Please choose 1, 2, or 3: ");
+        while (getchar() != '\n'); // Clear input buffer
+    }
+    return difficulty;
+}
+
 int main() {
     char grid[ROWS][COLS];
     int score = 0;
@@ -72,19 +83,23 @@ int main() {
 
     printf("Whac-A-Mole Game Start!\n");
 
-    while (time(NULL) - startTime < GAME_DURATION) {
-        clearGrid(grid);
-        generateMole(grid);
+    int difficulty = selectDifficulty();
+    int sleepTime;
+    switch (difficulty) {
+    case 1: sleepTime = 2000; break; // Easy: 2 seconds
+    case 2: sleepTime = 1000; break; // Normal: 1 second
+    case 3: sleepTime = 500; break; // Hard: 0.5 seconds
+    }
 
+    generateMole(grid); // Initial mole generation
+
+    while (time(NULL) - startTime < GAME_DURATION) {
         printf("Score: %d\n", score);
         displayGrid(grid);
 
         handleInput(grid, &score);
 
-        printf("Updated Grid:\n");
-        displayGrid(grid);
-
-        Sleep(1); // Pause for a short time to simulate game pace
+        Sleep(sleepTime); // Windows: Sleep takes milliseconds
     }
 
     printf("Game Over! Final Score: %d\n", score);
