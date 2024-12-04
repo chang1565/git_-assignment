@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -21,7 +22,7 @@ void generateMole(char grid[ROWS][COLS]) {
     grid[x][y] = 'M';
 }
 
-void handleInput(char grid[ROWS][COLS]) {
+void handleInput(char grid[ROWS][COLS], int* score) {
     int x, y;
     printf("Enter coordinates to whack the mole (row and column): ");
     scanf("%d %d", &x, &y);
@@ -30,6 +31,7 @@ void handleInput(char grid[ROWS][COLS]) {
         if (grid[x][y] == 'M') {
             printf("You hit the mole!\n");
             grid[x][y] = '-';
+            (*score)++;
         }
         else {
             printf("Miss! No mole here.\n");
@@ -42,6 +44,8 @@ void handleInput(char grid[ROWS][COLS]) {
 
 int main() {
     char grid[ROWS][COLS];
+    int score = 0;
+
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             grid[i][j] = '-';
@@ -51,15 +55,17 @@ int main() {
     srand(time(NULL));
 
     printf("Whac-A-Mole Game Start!\n");
+    printf("Score: %d\n", score);
     displayGrid(grid);
 
     generateMole(grid);
     printf("Mole appeared!\n");
     displayGrid(grid);
 
-    handleInput(grid);
+    handleInput(grid, &score);
     printf("Updated Grid:\n");
     displayGrid(grid);
+    printf("Score: %d\n", score);
 
     return 0;
 }
