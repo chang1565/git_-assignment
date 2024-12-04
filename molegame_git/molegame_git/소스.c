@@ -8,6 +8,7 @@
 #define GAME_DURATION 30 // Game duration in seconds
 
 void displayGrid(char grid[ROWS][COLS]) {
+    system("cls"); // Clear the console for updated grid
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             printf("%c ", grid[i][j]);
@@ -17,12 +18,6 @@ void displayGrid(char grid[ROWS][COLS]) {
     printf("\n");
 }
 
-void generateMole(char grid[ROWS][COLS]) {
-    int x = rand() % ROWS;
-    int y = rand() % COLS;
-    grid[x][y] = 'M';
-}
-
 void clearGrid(char grid[ROWS][COLS]) {
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
@@ -30,6 +25,14 @@ void clearGrid(char grid[ROWS][COLS]) {
         }
     }
 }
+
+void generateMole(char grid[ROWS][COLS]) {
+    clearGrid(grid); // Clear the grid before placing a new mole
+    int x = rand() % ROWS;
+    int y = rand() % COLS;
+    grid[x][y] = 'M';
+}
+
 
 void handleInput(char grid[ROWS][COLS], int* score) {
     int x, y;
@@ -50,7 +53,6 @@ void handleInput(char grid[ROWS][COLS], int* score) {
             if (grid[x][y] == 'M') {
                 printf("You hit the mole!\n");
                 (*score)++;
-                generateMole(grid); // Generate next mole immediately
                 return;
             }
             else {
@@ -94,11 +96,9 @@ int main() {
     generateMole(grid); // Initial mole generation
 
     while (time(NULL) - startTime < GAME_DURATION) {
-        printf("Score: %d\n", score);
         displayGrid(grid);
-
         handleInput(grid, &score);
-
+        generateMole(grid); // Immediately generate the next mole
         Sleep(sleepTime); // Windows: Sleep takes milliseconds
     }
 
