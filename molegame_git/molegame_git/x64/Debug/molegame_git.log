@@ -1,4 +1,8 @@
 ﻿  소스.c
+<<<<<<< HEAD
 C:\Users\1565c\sourceTree_git\molegame_git\molegame_git\소스.c(84,11): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+=======
+C:\Users\1565c\sourceTree_git\molegame_git\molegame_git\소스.c(82,11): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+>>>>>>> e0c03a6 (Add difficulty selection and game speed)
   LINK : C:\Users\1565c\sourceTree_git\molegame_git\x64\Debug\molegame_git.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
   molegame_git.vcxproj -> C:\Users\1565c\sourceTree_git\molegame_git\x64\Debug\molegame_git.exe
