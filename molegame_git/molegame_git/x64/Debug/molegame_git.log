@@ -1,3 +1,7 @@
 ﻿  소스.c
+<<<<<<< HEAD
 C:\Users\1565c\sourceTree_git\molegame_git\molegame_git\소스.c(93,11): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+=======
+C:\Users\1565c\sourceTree_git\molegame_git\molegame_git\소스.c(82,11): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+>>>>>>> master
   molegame_git.vcxproj -> C:\Users\1565c\sourceTree_git\molegame_git\x64\Debug\molegame_git.exe
