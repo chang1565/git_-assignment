@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <windows.h>// For sleep()
 
 #define ROWS 3
 #define COLS 4
+#define GAME_DURATION 30 // Game duration in seconds
 
 void displayGrid(char grid[ROWS][COLS]) {
     for (int i = 0; i < ROWS; i++) {
@@ -19,6 +21,14 @@ void generateMole(char grid[ROWS][COLS]) {
     int x = rand() % ROWS;
     int y = rand() % COLS;
     grid[x][y] = 'M';
+}
+
+void clearGrid(char grid[ROWS][COLS]) {
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            grid[i][j] = '-';
+        }
+    }
 }
 
 void handleInput(char grid[ROWS][COLS], int* score) {
@@ -56,27 +66,28 @@ void handleInput(char grid[ROWS][COLS], int* score) {
 int main() {
     char grid[ROWS][COLS];
     int score = 0;
-
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
-            grid[i][j] = '-';
-        }
-    }
+    time_t startTime = time(NULL);
 
     srand(time(NULL));
 
     printf("Whac-A-Mole Game Start!\n");
-    printf("Score: %d\n", score);
-    displayGrid(grid);
 
-    generateMole(grid);
-    printf("Mole appeared!\n");
-    displayGrid(grid);
+    while (time(NULL) - startTime < GAME_DURATION) {
+        clearGrid(grid);
+        generateMole(grid);
 
-    handleInput(grid, &score);
-    printf("Updated Grid:\n");
-    displayGrid(grid);
-    printf("Score: %d\n", score);
+        printf("Score: %d\n", score);
+        displayGrid(grid);
+
+        handleInput(grid, &score);
+
+        printf("Updated Grid:\n");
+        displayGrid(grid);
+
+        Sleep(1); // Pause for a short time to simulate game pace
+    }
+
+    printf("Game Over! Final Score: %d\n", score);
 
     return 0;
 }
