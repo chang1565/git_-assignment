@@ -13,7 +13,10 @@ void displayGrid(char grid[ROWS][COLS], int displayTime, int playerX, int player
     printf("Timer: %d seconds\n", displayTime);
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            if (i == playerX && j == playerY) {
+            if (i == playerX && j == playerY && grid[i][j] == 'M') {
+                printf("@ "); // Player and mole overlap
+            }
+            else if (i == playerX && j == playerY) {
                 printf("P "); // Player position
             }
             else {
