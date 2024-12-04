@@ -8,11 +8,7 @@
 #define COLS 4
 #define GAME_DURATION 60 // Game duration in seconds
 
-<<<<<<< HEAD
 void displayGrid(char grid[ROWS][COLS], int displayTime, int playerX, int playerY) {
-=======
-void displayGrid(char grid[ROWS][COLS], int displayTime) {
->>>>>>> master
     system("cls"); // Clear the console for updated grid
     printf("Timer: %d seconds\n", displayTime);
     for (int i = 0; i < ROWS; i++) {
@@ -47,15 +43,6 @@ void generateMole(char grid[ROWS][COLS]) {
     int y = rand() % COLS;
     grid[x][y] = 'M';
 }
-<<<<<<< HEAD
-=======
-
-void handleInput(char grid[ROWS][COLS], int* score) {
-    int x, y;
-    while (1) {
-        printf("Enter coordinates to whack the mole (row [1-%d] and column [1-%d]): ", ROWS, COLS);
-        int result = scanf_s("%d %d", &x, &y);
->>>>>>> master
 
 void handlePlayerInput(char grid[ROWS][COLS], int* score, int* playerX, int* playerY) {
     if (_kbhit()) {
@@ -78,11 +65,7 @@ void handlePlayerInput(char grid[ROWS][COLS], int* score, int* playerX, int* pla
             if (grid[*playerX][*playerY] == 'M') {
                 printf("You hit the mole!\n");
                 (*score)++;
-<<<<<<< HEAD
                 generateMole(grid);
-=======
-                return;
->>>>>>> master
             }
             else {
                 printf("Miss! No mole here.\n");
@@ -106,10 +89,7 @@ int selectDifficulty() {
 int main() {
     char grid[ROWS][COLS];
     int score = 0;
-<<<<<<< HEAD
     int playerX = 0, playerY = 0; // Initial player position
-=======
->>>>>>> master
     srand(time(NULL));
 
     printf("Whac-A-Mole Game Start!\n");
@@ -134,16 +114,9 @@ int main() {
             break;
         }
 
-<<<<<<< HEAD
         displayGrid(grid, remainingTime, playerX, playerY);
         handlePlayerInput(grid, &score, &playerX, &playerY);
         Sleep(sleepTime); // Faster refresh rate for smoother gameplay
-=======
-        displayGrid(grid, remainingTime);
-        handleInput(grid, &score);
-        generateMole(grid); // Generate a new mole after each input
-        Sleep(sleepTime); // Adjust game speed based on difficulty
->>>>>>> master
     }
 
     printf("Game Over! Final Score: %d\n", score);
